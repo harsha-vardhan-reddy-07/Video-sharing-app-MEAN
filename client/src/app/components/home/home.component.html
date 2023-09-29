@@ -1,0 +1,23 @@
+<div class="homepage">
+    <div class="home-videos-container">
+
+
+          <div class="home-video-card" *ngFor="let video of videos">
+            <img class='home-card-thumbnail-image' src={{video.thumbnail}} alt="" [routerLink]="['/video/', video._id]" />
+            <div class="home-card-data-body">
+              <img src={{video.userPic}} alt="" [routerLink]="['/profile/', video.userId]" />
+              <div class="home-card-data">
+                <h4 [routerLink]="['/video/', video._id]" >{{video.title.length > 30 ? video.title.slice(0,30) + '...' : video.title }}</h4>
+                <p [routerLink]="['/profile/', video.userId]" >{{video.userName}}</p>
+                <span>
+                  <p>{{video.views}} views</p>
+                  <p>{{findUploadedTime(video.uploadTime)}}</p>
+                </span>
+              </div>
+            </div>
+          </div>
+
+
+
+    </div>
+  </div>

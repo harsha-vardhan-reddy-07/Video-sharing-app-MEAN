@@ -1,0 +1,92 @@
+<div class="videoPlayer-page">
+    <div class="videoPlayer-body">
+
+      
+      <!-- <ReactPlayer  url={video ? video.video : ''} controls /> -->
+      <video *ngIf="isVideoAvailable" class='videoplayer-video' controls>
+        <source src={{video.video}} type="video/mp4">
+      </video>
+
+      <div class="video-controls">
+        
+            <mat-icon *ngIf="isLiked" class='video-control-icons liked-icon' (click)="removeLike()" >favorite</mat-icon>
+            
+            <mat-icon *ngIf="!isLiked" class='video-control-icons ' (click)="addLike()" >favorite_border</mat-icon>
+            
+          
+        <p>{{video ? video.likes.length : ''}} likes</p>
+
+          <mat-icon class='video-control-icons' (click)="shareURL()" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Share">share</mat-icon>
+
+          <mat-icon (click)="savePost()" class='video-control-icons' data-bs-toggle="tooltip" data-bs-placement="bottom" title="Save"  >library_add</mat-icon>
+
+          <span>
+            <p>{{video ? video.views : ''}} views</p>
+            <p>uploaded {{video ? findUploadedTime(video.uploadTime) : 'recently'}}</p>
+          </span>
+      </div>
+      <div class="videoPlayer-data">
+        <h4>{{video ? video.title : ''}}</h4>
+        <p>{{video ? video.description : ''}}</p>
+        <div class="videoOwner-data">
+          <img src={{video.userPic}} alt=""  [routerLink]="['/profile/', video.userId]"/>
+          
+          <h5 [routerLink]="['/profile/', video.userId]"  >{{video.userName}}</h5>
+          
+   
+        </div>
+      </div>
+
+      <div class="comments-container">
+        <h4>Comments</h4>
+        <div class="comments-body">
+          
+
+              <div class="comment" *ngFor="let comment of comments" >
+                <span>
+                  <h5>{{comment.username}}</h5>
+                  <p>{{comment.comment}}</p>
+                </span>
+              </div>
+         
+
+
+        </div>
+        <div class="add-comment">
+          <input type="text" placeholder='type something...'  [(ngModel)]="newComment" />
+          <button (click)="addComment()">Post</button>
+        </div>
+      </div>
+
+    </div>
+
+
+
+
+    <div class="related-videos-container">
+
+      <h4>Related videos</h4>
+      <div class="related-videos">
+
+
+            <div class="related-video" *ngFor="let video of videos">
+                <img class='related-video-thumbnail-image' src={{video.thumbnail}} alt="" [routerLink]="['/video/', video._id]" />
+                <div class="related-video-data">
+                  <h4 [routerLink]="['/video/', video._id]" >{{video.title.length > 25 ? video.title.slice(0,25) + '...' : video.title }}</h4>
+                  <p [routerLink]="['/video/', video._id]" >{{video.description.length > 40 ? video.description.slice(0,40) + '...' : video.description }}</p>
+                  <h6 [routerLink]="['/profile/', video.userId]">{{video.userName}}</h6>
+                  <span>
+                    <p>32k views</p>
+                    <p>uploaded 5 days ago</p>
+                  </span>
+                </div>
+            </div>
+
+        
+
+
+      </div>
+
+     
+    </div>
+  </div>

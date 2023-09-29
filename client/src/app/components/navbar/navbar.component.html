@@ -1,0 +1,36 @@
+<div class="navbar">
+    <h3 routerLink="/">Smart Vidzz</h3>
+    <div class="nav-content">
+
+      <app-new-post *ngIf="isNewPostBoxOpen"  (newPostCloseEvent)="isNewPostBoxOpen=false" ></app-new-post>
+
+      <div class="searchbar">
+        <input type="text" placeholder='Search videos...' [(ngModel)]="search" />
+        <mat-icon class='serachIcon' [routerLink]="['/search',search]">search</mat-icon>
+      </div>
+
+      
+        <div class="nav-options" *ngIf="userId" >
+
+          <mat-icon  class='nav-options-icon nav-options-video-icon' (click)="isNewPostBoxOpen= !isNewPostBoxOpen"  data-bs-toggle="tooltip" data-bs-placement="bottom" title="Upload video">video_call</mat-icon>
+           
+          <mat-icon routerLink="/following" class='nav-options-icon' data-bs-toggle="tooltip" data-bs-placement="bottom" title="Following">subscriptions</mat-icon>
+
+          <mat-icon routerLink="/saved" class='nav-options-icon' data-bs-toggle="tooltip" data-bs-placement="bottom" title="Saved videos">queue</mat-icon>
+
+          <img class='nav-profilePic' src={{profilePic}} alt="" [routerLink]="['/profile/',userId]" title="profile" />
+        </div>
+      
+      
+         <button *ngIf="!userId"   routerLink="/authenticate">Sign In</button>
+
+
+
+
+
+
+    </div>
+
+    
+
+  </div>

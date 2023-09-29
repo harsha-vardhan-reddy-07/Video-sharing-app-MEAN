@@ -1,0 +1,36 @@
+<div class="createPostModalBg" >
+    <div class="createPostContainer">
+       
+        <mat-icon class='closeCreatePost' (click)="closeBox('close')">highlight_off</mat-icon>
+        <h2 class="createPostTitle">Upload new video</h2>
+        <hr class="createPostHr" />
+        
+        <div class="createPostBody">
+            <form>
+
+                <div class="uploadBox">
+                    <input type="file" name="videoFile" id="uploadPostFile" (change)="handleVideoFileChange($event)"  />
+                </div>
+
+                <div class="uploadBox">
+                    <input type="file" name="thumbnailFile" id="uploadthumbnailFile" (change)="handleThumbnailFileChange($event)" />
+                </div>
+                <div class="form-floating mb-3 descriptionInput">
+                    <input type="text" class="form-control " id="floatingTitle" placeholder="Description" [(ngModel)]="title" name="title"  /> 
+                    <label for="floatingTitle">Title</label>
+                </div>
+                <div class="form-floating mb-3 descriptionInput">
+                    <input type="text" class="form-control " id="floatingDescription" placeholder="Description"  [(ngModel)]="description" name="description" /> 
+                    <label for="floatingDescription">Description</label>
+                </div>
+
+
+                <button   (click)="handleUpload()">upload</button>
+
+                <p *ngIf="isUploading">Uploading...</p>
+        
+
+            </form>
+        </div>
+    </div>
+</div>

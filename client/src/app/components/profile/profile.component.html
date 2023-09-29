@@ -1,0 +1,175 @@
+<div class="profilePage">
+
+    <div class="profile-data-container">
+      
+      <div class="profile-data">
+
+        <img src={{userData.profilePic}} class="profile-image"  alt="" >
+        <div class="profile-content">
+          <h4>{{userData? userData.username: ""}}</h4>
+          <span>
+            <h6>{{userData? userData.followers.length: ""}} Followers</h6>
+            <h6>{{videosCount}}  videos</h6>
+          </span>
+          <p class='profile-description'>{{userData? userData.description: ""}}</p>
+        </div>
+
+           <button *ngIf="userId === profileId" class="profile-btn profile-danger-btn" (click)="logout()" >Logout</button>
+
+        
+          <button *ngIf="userData.followers.includes(userId) && userId !== profileId"  class="profile-btn profile-danger-btn"   (click)="unFollowUser()">UnFollow</button> 
+    
+          <button *ngIf="!userData.followers.includes(userId)  && userId !== profileId" class="profile-btn profile-primary-btn"  (click)="followUser()">Follow</button>
+
+
+
+      </div>
+
+    </div>
+
+    <div class="profile-body-container">
+
+      <div class="profile-body-nav">
+        <ul>
+          <li  [class]="navOption === 'Home' ? 'selected-option' : ''"  (click)="navOption = 'Home'" >Home</li>
+          <li [class]="navOption === 'Videos' ? 'selected-option' : ''"  (click)="navOption = 'Videos'" >All Videos</li>
+
+          <li *ngIf="userId === profileId" [class]="navOption === 'About' ? 'selected-option' : ''"  (click)="navOption = 'About'" >About</li>
+
+        </ul>
+
+        <hr />
+      </div>
+
+
+      <!-- Profile Home -->
+
+      <div class="home-container" *ngIf="navOption === 'Home'" >
+
+        <div class="home-videos-body">
+          
+        <h3 *ngIf="videos.length > 0" >Recently Uploaded</h3>
+          
+        <h3 *ngIf="videos.length === 0" >No videos</h3>
+          
+  
+          <div class="home-videos">
+  
+
+                  <div class="home-video" *ngFor="let video of videos">
+                    <img src={{video.thumbnail}} alt="" [routerLink]="['/video/', video._id]"  />
+        
+                    <div class="video-card-data">
+                        <h4 [routerLink]="['/video/', video._id]" >{{video.title.length > 30 ? video.title.slice(0,30) + '...' : video.title }}</h4>
+                        <span>
+                          <p>{{video.views}} views</p>
+                          <p>{{video.likes.length}} likes</p>
+                          <p>{{findUploadedTime(video.uploadTime)}}</p>
+                        </span>
+                      </div>
+                  </div>
+ 
+            
+          </div>
+  
+        </div>
+  
+  
+        <div class="home-videos-body" >
+          
+           <h3 *ngIf="videos.length > 0">Popular videos</h3>
+
+          <div class="home-videos">
+  
+
+                  <div class="home-video" *ngFor="let video of popularVideos" >
+                    <img src={{video.thumbnail}} alt="" />
+        
+                    <div class="video-card-data">
+                        <h4>{{video.title.length > 30 ? video.title.slice(0,30) + '...' : video.title }}</h4>
+                        <span>
+                          <p>{{video.views}} views</p>
+                          <p>{{video.likes.length}} likes</p>
+                          <p>{{findUploadedTime(video.uploadTime)}}</p>
+                        </span>
+                      </div>
+                  </div>
+              
+            
+          </div>
+        </div>
+  
+  
+    </div>
+
+
+      <!-- Profile Videos -->
+
+      <div class="videos-container" *ngIf="navOption === 'Videos'">
+
+
+          <h3 *ngIf="videos.length === 0" >No videos</h3>
+        
+
+        <div class="video-card" *ngFor="let video of videos">
+            <img class='video-thumbnail-image' src={{video.thumbnail}} alt="" [routerLink]="['/video/', video._id]"  />
+              <div style="display : flex; justify-content: space-between">
+                <div class="video-card-data">
+                    <h4 [routerLink]="['/video/', video._id]">{{video.title.length > 30 ? video.title.slice(0,30) + '...' : video.title }}</h4>
+                    <span>
+                      <p>{{video.views}} views</p>
+                      <p>{{video.likes.length}} likes</p>
+                      <p>{{findUploadedTime(video.uploadTime)}}</p>
+                    </span>
+                </div>
+               
+                <!-- delete button (if owner access it) -->
+                    <div class="btn-group dropstart" *ngIf="profileId === userId" >
+                      <mat-icon (click)="deleteVideo(video._id)"  data-bs-toggle="tooltip" data-bs-placement="bottom" title="delete video" >delete_forever</mat-icon>
+                    </div>
+       
+              </div>
+        </div>
+
+    
+
+  </div>
+
+
+      <!-- profile About -->
+
+
+        <div class="profile-about-container" *ngIf="navOption === 'About'">
+
+            <h3>Update Profile</h3>
+
+            <div class="profile-about-body">
+
+                <span>
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="floatingAboutTitle" name="title" placeholder="AboutTitle" [(ngModel)]="userTitle" [ngModelOptions]="{standalone: true}" />
+                    <label for="floatingAboutTitle">Title</label>
+                </div>
+                <div >
+                    <input class="form-control form-control-md profile-file-input" type="file" (change)="handleFileChange($event)" />
+                </div>
+                </span>
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="floatingAboutDescription" name="description" placeholder="AboutDescription" [(ngModel)]="userDesc" [ngModelOptions]="{standalone: true}" />
+                    <label for="floatingAboutDescription">Description</label>
+                </div>
+                <button *ngIf="isUploading" class='btn btn-outline-primary' disabled>Updating... </button>
+                
+                <button *ngIf="!isUploading" class='btn btn-outline-primary' (click)="handleUpdate()">Update</button>
+                
+
+            </div>
+
+        </div>
+
+      
+
+    </div>
+
+
+</div>

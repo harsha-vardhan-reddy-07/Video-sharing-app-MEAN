@@ -1,0 +1,50 @@
+<div class="following-page">
+
+    <div class="following-page-nav">
+
+      <h3>Following pages</h3>
+      <hr />
+      
+      <div class="following-nav-options">
+
+          <div [class]="activeFollowing === 'all' ? 'following-nav-option selected-nav-option' : 'following-nav-option'" (click)="handleFollowerChange('all')" >
+            <p>All Content</p>
+          </div>
+
+          <div *ngFor="let user of users">
+              <div  [class]="activeFollowing === user._id ? 'following-nav-option selected-nav-option' : 'following-nav-option'" (click)="handleFollowerChange(user._id)"  >
+              <span>
+                  <img src={{user.profilePic}} alt="" />
+                  <p>{{user.username}}</p>
+              </span>
+              <button [routerLink]="['/profile/', user._id]">view profile</button>
+              </div>
+          </div>
+
+      </div>
+    </div>
+
+
+
+    <div class="following-page-body">
+
+          <div class="following-video-card" *ngFor="let video of displayVideos" >
+            <img class='following-card-thumbnail-image' src={{video.thumbnail}} alt="" [routerLink]="['/video/', video._id]" />
+            <div class="following-card-data-body">
+              <img src={{video.userPic}} alt="" [routerLink]="['/profile/', video.userId]" />
+              <div class="following-card-data">
+                <h4 [routerLink]="['/video/', video._id]" >{{video.title.length > 25 ? video.title.slice(0,25) + '...' : video.title }}</h4>
+                <p [routerLink]="['/profile/', video.userId]">{{video.userName}}</p>
+                <span>
+                  <p>{{video.views}} views</p>
+                  <p>{{video.likes.length}} likes</p>
+                  <p>{{findUploadedTime(video.uploadTime)}}</p>
+                </span>
+              </div>
+            </div>
+          </div>
+
+
+    </div>
+
+  </div>

@@ -1,0 +1,67 @@
+<div class="saved-videos-page">
+
+
+    <h3 *ngIf="userData && savedVideos.length > 0" >Saved videos</h3>
+    
+    <h3 *ngIf="userData && savedVideos.length === 0" >no Saved videos</h3>
+    
+
+  <div class="saved-videos-body">
+
+
+        <div class="saved-video" *ngFor="let video of savedVideos">
+          <img class='saved-video-thumbnail' src={{video.thumbnail}} alt="" [routerLink]="['/video/', video._id]" />
+          <div class="video-data">
+            <img src={{video.userPic}} alt=""  [routerLink]="['/profile/', video.userId]" />
+            <div>
+              <h5 [routerLink]="['/video/', video._id]" >{{video.title.length > 30 ? video.title.slice(0,30) + '...' : video.title }}</h5>
+              <p [routerLink]="['/profile/', video.userId]" >{{video.userName}}</p>
+              <span>
+                <p>{{video.views}} views</p>
+                <p>{{video.likes.length}} likes</p>
+                <p>{{findUploadedTime(video.uploadTime)}}</p>
+              </span>
+            </div>
+            <div class="btn-group dropstart">
+                <mat-icon class='video-menu-button' (click)="unsavePost(video._id)"  data-bs-toggle="tooltip" data-bs-placement="bottom" title="Remove from saved list" >delete_forever</mat-icon>
+              
+            </div>
+          </div>
+        </div>
+  </div>
+
+
+
+
+
+
+    <h3 *ngIf="userData && likedVideos.length > 0">Liked videos</h3>
+    
+    <h3 *ngIf="userData && likedVideos.length === 0">no Liked videos</h3>
+    
+
+  <div class="saved-videos-body">
+
+        <div class="saved-video"  *ngFor="let video of likedVideos">
+          <img class='saved-video-thumbnail' src={{video.thumbnail}} alt="" [routerLink]="['/video/', video._id]" />
+          <div class="video-data">
+            <img src={{video.userPic}} alt="" [routerLink]="['/profile/', video.userid]" />
+            <div>
+              <h5 [routerLink]="['/video/', video._id]" >{{video.title.length > 30 ? video.title.slice(0,30) + '...' : video.title }}</h5>
+              <p [routerLink]="['/profile/', video.userId]">{{video.userName}}</p>
+              <span>
+                <p>{{video.views}} views</p>
+                <p>{{video.likes.length}} likes</p>
+                <p>{{findUploadedTime(video.uploadTime)}}</p>
+              </span>
+            </div>
+            <div class="btn-group dropstart">
+                <mat-icon class='video-menu-button' (click)="removeLike(video._id)"  data-bs-toggle="tooltip" data-bs-placement="bottom" title="Remove from likes" >delete_forever</mat-icon>
+              
+            </div>
+          </div>
+        </div>
+
+  </div>
+
+</div>

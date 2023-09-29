@@ -1,0 +1,35 @@
+<div class="search-page">
+    <h3>Search result related to "{{searchText}}"</h3>
+    <hr />
+
+    <div class="search-videos-body">
+
+
+        <h6 *ngIf="videos.length === 0" >No related videos are found</h6>
+          
+
+          <div class="search-video" *ngFor="let video of videos">
+            <img class='search-video-thumbnail-image' src={{video.thumbnail}} alt="" [routerLink]="['/video/', video._id]" />
+            <div class="search-video-data-body">
+              
+              <div class="search-video-data">
+                <h4 [routerLink]="['/video/', video._id]">{{video.title.length > 80 ? video.title.slice(0,80) + '...' : video.title }}</h4>
+                <p [routerLink]="['/video/', video._id]">{{video.description.length > 100 ? video.description.slice(0,100) + '...' : video.description }}</p>
+                <span>
+                  <p>{{video.views}} views</p>
+                  <p>{{video.likes.length}} likes</p>
+                  <p>{{findUploadedTime(video.uploadTime)}}</p>
+                </span>
+                <span [routerLink]="['/profile/', video.userId]" >
+                  <img class='search-video-channel-image' src={{video.userPic}} alt=""  />
+                  <h5 >{{video.userName}}</h5>
+                </span>
+              </div>
+            </div>
+          </div>
+
+
+
+    </div>
+
+  </div>
